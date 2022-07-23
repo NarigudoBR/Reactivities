@@ -17,6 +17,14 @@ builder.Services.AddDbContext<DataContext>(opt =>
 
 });
 
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("CorsPolicy", policy =>
+    {
+        policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
+    });
+});
+
 
 var app = builder.Build();
 
@@ -32,11 +40,14 @@ try
 }
 catch (Exception ex)
 {
-    
-   var logger = services.GetRequiredService<ILogger<Program>>();
-   logger.LogError(ex,"An error ocurred during migration");
+
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "An error ocurred during migration");
 }
 // Configure the HTTP request pipeline.
+
+
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -48,6 +59,7 @@ app.UseRouting();
 
 
 // app.UseHttpsRedirection();
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 
