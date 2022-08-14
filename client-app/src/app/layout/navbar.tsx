@@ -1,4 +1,3 @@
-import React from "react";
 import '../layout/styles.css'
 import { Button, Container, Menu } from "semantic-ui-react";
 
